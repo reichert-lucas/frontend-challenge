@@ -1,12 +1,13 @@
 import { createStore } from 'vuex'
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+import movies from './modules/movies'
+
+const modules = { 
+  movies
+}
+
+const store = new createStore({
+    modules
 })
+
+export default store
