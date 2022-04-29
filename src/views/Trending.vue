@@ -72,8 +72,8 @@ export default {
         },
 
         toPage() {
-            if (this.page >= this.pagination.last_page) return
-            if (this.page <= 1) return
+            if (this.page > this.pagination.last_page) return
+            if (this.page < 1) return
 
             this.loading = true
 
