@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container__movies">
         <h2>Trending</h2>
 
         <div v-if="loading">
@@ -15,7 +15,18 @@
                 <div v-for="movie in movies" :key="movie.id"
                     class="container__movies__list__item"
                 >
-                    {{ movie.title }}
+                    <img :src="`${imagesUrl}${movie.poster_path}`">
+
+                    <div class="container__movies__list__item__text">
+                        <h4>{{ movie.title }}</h4>
+                        <span class="container__movies__list__item__text__subtitle">{{ movie.release_date }}</span>
+                    </div>
+
+                    <div class="container__movies__list__item__rank">
+
+                        <span>&#11088;</span>
+                        {{ movie.vote_average }}
+                    </div>
                 </div>
             </div>
 
@@ -45,7 +56,8 @@ export default {
     data() {
         return {
             loading: false,
-            page: 1
+            page: 1,
+            imagesUrl: null
         }
     },
 
@@ -89,6 +101,7 @@ export default {
 
     created() {
         this.loading = true
+        this.imagesUrl = process.env.VUE_APP_MOVIE_API_IMAGE_URL
 
         this.loadMovies()
             .then(() => {
@@ -102,6 +115,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .container__movies {
+        margin: 0;
+        padding: 40px 0px;
+        width: 90vw;
+        box-sizing: border-box;
+        margin: auto;
+    }
+
     .container__pagination {
         width: 100%;
         display: flex;
@@ -138,6 +159,66 @@ export default {
         &__btn {
             svg {
                 width: 48px;
+            }
+        }
+    }
+
+    .container__movies__list {
+        width: 100%;
+        padding: 32px 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        &__item {
+            width: 500px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 8px;
+            margin: 8px;
+            background: whitesmoke;
+            border-radius: 6px;
+            flex-wrap: wrap;
+            position: relative;
+
+            img {
+                width: 140px;
+                padding: 4px;
+                border-radius: 8px;
+            }
+
+            @media (max-width: 600px) {
+                width: 80%;
+            }
+
+            &__text {
+                margin-left: 8px;
+                max-width: calc(100% - 160px);
+                text-align: left;
+
+                &__subtitle {
+                    font-size: 12px;
+                    color: gray;
+                    font-weight: 600;
+                }
+
+                h4 {
+                    font-size: 18px;
+                    text-align: left;
+                    margin-bottom: 0;
+                }
+
+                @media (max-width: 600px) {
+                    width: 100%;
+                }
+            }
+
+            &__rank {
+                position: absolute;
+                bottom: 8px;
+                right: 8px;
             }
         }
     }
